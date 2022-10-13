@@ -24,34 +24,32 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         countdown = findViewById<Chronometer>(R.id.chronometer)
+
         if(savedInstanceState!= null) {
             offset = savedInstanceState.getLong(offset_key)
             running = savedInstanceState.getBoolean(running_key)
-
 
             setTimer(0)
             if (running) {
                 countdown.start()
             }
         }
+
         var one_sec = findViewById<Button>(R.id.one_sec)
         one_sec.setOnClickListener {
-            Log.v("button click", " add 1 sec")
             setTimer(1000)
-
         }
+
         val five_sec = findViewById<Button>(R.id.five_sec)
         five_sec.setOnClickListener {
-            Log.v("button click", "add 5 sec")
             setTimer(5000)
         }
+
         val ten_sec = findViewById<Button>(R.id.ten_sec)
         ten_sec.setOnClickListener {
-            Log.v("button click", "add 10 sec")
-            setTimer(100000)
-
-
+            setTimer(10000)
         }
+
         val start = findViewById<Button>(R.id.start)
         start.setOnClickListener {
             if (!running) {
@@ -61,6 +59,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+
         val stop = findViewById<Button>(R.id.stop)
         stop.setOnClickListener {
             if (running) {
@@ -69,27 +68,26 @@ class MainActivity : AppCompatActivity() {
                 running = false
             }
         }
-        val restart = findViewById<Button>(R.id.stop)
+
+        val restart = findViewById<Button>(R.id.reset)
         restart.setOnClickListener {
             offset = 0
             setBasetime()
         }
     }
 
-    private fun setTimer(value:Long) {
-        offset +=value
-        countdown.base = SystemClock.elapsedRealtime() - offset
+    private fun setTimer(value: Long) {
+        offset += value
+        countdown.base = SystemClock.elapsedRealtime() + offset
 
     }
 
     fun saveOffset(){
-        var offset = SystemClock.elapsedRealtime() - offset
-        TODO("Not yet implemented")
+        offset = countdown.base - SystemClock.elapsedRealtime()
     }
 
     private fun setBasetime() {
-        TODO("Not yet implemented")
-        countdown.base = SystemClock.elapsedRealtime() - offset
+        countdown.base = SystemClock.elapsedRealtime() + offset
     }
 }
 
